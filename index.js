@@ -5,11 +5,13 @@ const passport = require("passport");
 const keys = require("./config/keys");
 const bodyParser = require("body-parser");
 require("./models/User");
+require("./models/surveys");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
 const authRoutes = require("./routes/authRoutes");
 const billingRoutes = require("./routes/billingRoutes");
+const surveyRoutes = require("./routes/surveyRoutes");
 const app = express();
 
 app.use(bodyParser.json());
@@ -23,6 +25,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
+surveyRoutes(app);
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
 	const path = require("path");
